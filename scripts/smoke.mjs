@@ -47,6 +47,7 @@ try {
   await rendered(page);
   check(await page.locator('.sheet').count() === 2, 'sample opens with 2 pages');
   check(await page.locator('.thumb').count() === 2, 'page list shows 2 thumbnails');
+  await page.waitForFunction(() => document.querySelector('.sheet canvas.paper')?.width > 400, null, { timeout: 15000 });
   const lit = await page.evaluate(() => {
     const c = document.querySelector('.sheet canvas.paper');
     const g = c.getContext('2d');
