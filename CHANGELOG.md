@@ -6,6 +6,7 @@
 - Fields that stay fillable after saving embed the complete font, so other programs can type any letter into them later.
 - The text box no longer hides the first letter while you type.
 - README demos for English and Turkish.
+- Windows releases also come as a ZIP (used by the Scoop bucket), with a `.sha256` file per download and a GitHub build attestation.
 
 ## 1.0.0
 

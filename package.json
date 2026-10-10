@@ -52,9 +52,11 @@
     "win": {
       "target": [
         "portable",
-        "nsis"
+        "nsis",
+        "zip"
       ],
-      "icon": "build/icon.png"
+      "icon": "build/icon.png",
+      "artifactName": "tlk-pdf-${version}-win-${arch}.${ext}"
     },
     "portable": {
       "artifactName": "tlk-pdf-${version}-portable.exe"

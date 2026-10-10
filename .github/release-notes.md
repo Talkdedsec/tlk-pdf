@@ -4,7 +4,10 @@
 | --- | --- |
 | `tlk-pdf-*-portable.exe` | Single file, no installation. Double-click to run. |
 | `tlk-pdf-*-setup.exe` | Installs for the current user with shortcuts, **Open with → TLK PDF** for PDF files, and an uninstaller. |
-| `SHA256SUMS.txt` | Checksums for both files. |
+| `tlk-pdf-*-win-x64.zip` | The unpacked program in a ZIP, used by Scoop. |
+| `SHA256SUMS.txt`, `*.sha256` | Checksums. Builds also carry a GitHub attestation: `gh attestation verify <file> --owner Talkdedsec`. |
+
+With [Scoop](https://scoop.sh): `scoop bucket add tlk https://github.com/Talkdedsec/scoop-tlk` then `scoop install tlk/tlk-pdf`.
 
 What changed is in [CHANGELOG.md](https://github.com/Talkdedsec/tlk-pdf/blob/main/CHANGELOG.md). The executables are not code-signed. If Windows SmartScreen shows "Windows protected your PC", choose **More info → Run anyway**.
 

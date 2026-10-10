@@ -63,10 +63,18 @@ Download from the [latest release](https://github.com/Talkdedsec/tlk-pdf/release
 
 - `tlk-pdf-<version>-portable.exe`: a single file, no installation. Double-click to run.
 - `tlk-pdf-<version>-setup.exe`: installs for the current user, with Start menu and desktop shortcuts, **Open with → TLK PDF** for PDF files, and an uninstaller.
+- `tlk-pdf-<version>-win-x64.zip`: the unpacked program, for unzipping anywhere.
+
+Or with [Scoop](https://scoop.sh):
+
+```powershell
+scoop bucket add tlk https://github.com/Talkdedsec/scoop-tlk
+scoop install tlk/tlk-pdf
+```
 
 It is the same app as the website, works completely offline and saves through the normal Windows Save dialog. Once a day it checks GitHub for a newer release and tells you; nothing else leaves your computer.
 
-The executables are not code-signed, so Windows SmartScreen may show "Windows protected your PC". Choose **More info → Run anyway**, or check the file against `SHA256SUMS.txt` in the release first.
+The executables are not code-signed, so Windows SmartScreen may show "Windows protected your PC". Choose **More info → Run anyway**, or check the file first: against `SHA256SUMS.txt` in the release, or with `gh attestation verify <file> --owner Talkdedsec`, which proves which commit and workflow built it.
 
 ## Shortcuts
 

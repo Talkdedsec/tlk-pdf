@@ -63,10 +63,18 @@ Her şey kendi cihazında olur: tarayıcıda GitHub Pages üzerinden (kurulabili
 
 - `tlk-pdf-<sürüm>-portable.exe`: tek dosya, kurulum yok. Çift tıklayıp çalıştır.
 - `tlk-pdf-<sürüm>-setup.exe`: geçerli kullanıcı için kurar; Başlat menüsü ve masaüstü kısayolu, PDF dosyalarında **Birlikte aç → TLK PDF** ve kaldırıcı ile.
+- `tlk-pdf-<sürüm>-win-x64.zip`: istediğin yere açabileceğin, kurulumsuz program klasörü.
+
+Ya da [Scoop](https://scoop.sh) ile:
+
+```powershell
+scoop bucket add tlk https://github.com/Talkdedsec/scoop-tlk
+scoop install tlk/tlk-pdf
+```
 
 Web sitesindekiyle aynı uygulamadır, tamamen internetsiz çalışır ve Windows'un normal Kaydet penceresiyle kaydeder. Günde bir kez GitHub'da yeni sürüm olup olmadığına bakar ve sana söyler; bunun dışında bilgisayarından hiçbir şey çıkmaz.
 
-Dosyalar kod imzalı değildir; Windows SmartScreen "Windows bilgisayarınızı korudu" diyebilir. **Ek bilgi → Yine de çalıştır**'ı seç ya da önce dosyayı sürümdeki `SHA256SUMS.txt` ile karşılaştır.
+Dosyalar kod imzalı değildir; Windows SmartScreen "Windows bilgisayarınızı korudu" diyebilir. **Ek bilgi → Yine de çalıştır**'ı seç ya da önce dosyayı kontrol et: sürümdeki `SHA256SUMS.txt` ile ya da hangi commit ve iş akışının derlediğini kanıtlayan `gh attestation verify <dosya> --owner Talkdedsec` ile.
 
 ## Kısayollar
 
