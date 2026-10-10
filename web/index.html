@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TLK PDF</title>
+<meta name="description" content="Edit PDFs in your browser: add text, sign, fill forms, highlight, merge, split, reorder and rotate pages. Free, open source, nothing is uploaded.">
+<meta name="theme-color" content="#2449C9">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TLK PDF">
+<meta property="og:description" content="Free, open-source PDF editor that runs on your device. Text, signatures, forms, highlights, merge and split.">
+<meta property="og:url" content="https://talkdedsec.github.io/tlk-pdf/">
+<meta property="og:image" content="https://talkdedsec.github.io/tlk-pdf/icons/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="fonts/IBMPlexSans-Regular.woff" as="font" type="font/woff" crossorigin>
+<link rel="stylesheet" href="css/app.css">
+<script src="vendor/pdf-lib.min.js" defer></script>
+<script src="vendor/fontkit.umd.min.js" defer></script>
+<script src="vendor/fflate.min.js" defer></script>
+<script type="module" src="js/app.js"></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-open" viewBox="0 0 24 24"><path d="M3.5 7.5v10a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-6.2l-2-2.5H5.5a2 2 0 0 0-2 2Z"/></symbol>
+  <symbol id="i-add" viewBox="0 0 24 24"><path d="M14 3.5H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5Z"/><path d="M14 3.5v5h5M12 11.5v6M9 14.5h6"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14 4.5 9.5 9 5"/><path d="M4.5 9.5h10a5 5 0 0 1 0 10H11"/></symbol>
+  <symbol id="i-redo" viewBox="0 0 24 24"><path d="m15 14 4.5-4.5L15 5"/><path d="M19.5 9.5h-10a5 5 0 0 0 0 10H13"/></symbol>
+  <symbol id="i-zin" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.8-4.8M10.5 7.5v6M7.5 10.5h6"/></symbol>
+  <symbol id="i-zout" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.8-4.8M7.5 10.5h6"/></symbol>
+  <symbol id="i-fit" viewBox="0 0 24 24"><path d="M4 9V5.5A1.5 1.5 0 0 1 5.5 4H9M15 4h3.5A1.5 1.5 0 0 1 20 5.5V9M20 15v3.5a1.5 1.5 0 0 1-1.5 1.5H15M9 20H5.5A1.5 1.5 0 0 1 4 18.5V15"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5"/><path d="M4.5 15.5v3a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-3"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10Z"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.4a2.5 2.5 0 0 1 4.8 1c0 1.7-2.4 2.1-2.4 3.6M12 17h.01"/></symbol>
+  <symbol id="i-select" viewBox="0 0 24 24"><path d="M6 3.8 18.4 11l-5.6 1.5-2.7 5.4Z"/></symbol>
+  <symbol id="i-text" viewBox="0 0 24 24"><path d="M5 6.5V5h14v1.5M12 5v14M9 19h6"/></symbol>
+  <symbol id="i-hl" viewBox="0 0 24 24"><path d="m14.5 4.5 5 5-7.8 7.8H6.7v-5Z"/><path d="m4 20.5 2.7-3.2M10 9l5 5"/></symbol>
+  <symbol id="i-draw" viewBox="0 0 24 24"><path d="M3.5 19.5c2.2-4.4 4.3-6.3 6-5.4 1.9 1 .2 3.5 2 4.4 1.6.8 3.3-1.2 5.2-4"/><path d="m14.8 12.4 5.4-5.4a1.8 1.8 0 0 0-2.6-2.6l-5.4 5.4-.6 3.2Z"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><rect x="4.5" y="6" width="15" height="12" rx="1"/></symbol>
+  <symbol id="i-white" viewBox="0 0 24 24"><path d="m8.5 19.5-4-4a1.6 1.6 0 0 1 0-2.3L13.2 4.5a1.6 1.6 0 0 1 2.3 0l4 4a1.6 1.6 0 0 1 0 2.3L11 19.5Z"/><path d="M8.5 19.5h11M9 9l6 6"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="9.5" r="1.6"/><path d="m4 17 5-4.5 3.5 3 3-2.5 4.5 4"/></symbol>
+  <symbol id="i-sign" viewBox="0 0 24 24"><path d="M3.5 16c1.5-3.8 3-6.2 4.4-6.2 2.3 0-1.2 6.4.9 6.4 1.5 0 2.4-4 3.8-4 1.2 0 .6 2.8 1.8 2.8.9 0 1.6-1.2 2.4-1.2"/><path d="M3.5 20h17"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.2 4.2L19 7"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 24 24"><path d="m6.5 6.5 11 11M17.5 6.5l-11 11"/></symbol>
+  <symbol id="i-dot" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5" fill="currentColor"/></symbol>
+  <symbol id="i-date" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4M8 14h3"/></symbol>
+  <symbol id="i-rl" viewBox="0 0 24 24"><path d="M4.5 9.5A8 8 0 1 1 6 16.8"/><path d="M4.5 4.5v5h5"/></symbol>
+  <symbol id="i-rr" viewBox="0 0 24 24"><path d="M19.5 9.5A8 8 0 1 0 18 16.8"/><path d="M19.5 4.5v5h-5"/></symbol>
+  <symbol id="i-dup" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="1.5"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></symbol>
+  <symbol id="i-blank" viewBox="0 0 24 24"><path d="M14 3.5H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5Z"/><path d="M14 3.5v5h5"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l.8 12a1.5 1.5 0 0 0 1.5 1.4h6.4a1.5 1.5 0 0 0 1.5-1.4l.8-12M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-extract" viewBox="0 0 24 24"><path d="M14 3.5H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h4"/><path d="M14 3.5v5h5v3M15 15.5h6M18 12.5l3 3-3 3"/></symbol>
+  <symbol id="i-split" viewBox="0 0 24 24"><rect x="3.5" y="4" width="7" height="16" rx="1.2"/><rect x="13.5" y="4" width="7" height="16" rx="1.2"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+  <symbol id="i-pages" viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="7.5" rx="1"/><rect x="4" y="13.5" width="6.5" height="7" rx="1"/><path d="M14 6h6M14 9.5h6M14 15h6M14 18.5h6"/></symbol>
+  <symbol id="i-panel" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M14.5 4.5v15M17 8h1M17 11h1"/></symbol>
+  <symbol id="i-ok" viewBox="0 0 24 24"><path d="m5 12.5 4.2 4.2L19 7"/></symbol>
+  <symbol id="i-gh" viewBox="0 0 24 24"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></symbol>
+</svg>
+
+<div class="app" id="app">
+  <header class="topbar">
+    <div class="brand"><img src="icons/icon.svg" alt=""><b>TLK PDF</b></div>
+    <button class="btn icon mobile-only" id="b-pages" data-i18n-title="pages.title"><svg class="i"><use href="#i-pages"/></svg></button>
+    <button class="btn" id="b-open"><svg class="i"><use href="#i-open"/></svg><span class="hide-phone" data-i18n="top.open">Open</span></button>
+    <button class="btn hide-narrow" id="b-add" disabled><svg class="i"><use href="#i-add"/></svg><span data-i18n="top.add">Add pages</span></button>
+    <span class="docname" id="docname"></span>
+    <span class="spacer"></span>
+    <div class="group">
+      <button class="btn icon" id="b-undo" disabled data-i18n-title="top.undo"><svg class="i"><use href="#i-undo"/></svg></button>
+      <button class="btn icon" id="b-redo" disabled data-i18n-title="top.redo"><svg class="i"><use href="#i-redo"/></svg></button>
+    </div>
+    <span class="sep hide-phone"></span>
+    <div class="group hide-phone">
+      <button class="btn icon" id="b-zout" data-i18n-title="top.zoomOut"><svg class="i"><use href="#i-zout"/></svg></button>
+      <button class="zoomval" id="b-zoom" data-i18n-title="top.zoomReset">100%</button>
+      <button class="btn icon" id="b-zin" data-i18n-title="top.zoomIn"><svg class="i"><use href="#i-zin"/></svg></button>
+      <button class="btn icon hide-narrow" id="b-fit" data-i18n-title="top.fit"><svg class="i"><use href="#i-fit"/></svg></button>
+    </div>
+    <span class="sep hide-phone"></span>
+    <div class="group">
+      <button class="btn icon lang" id="b-lang" data-i18n-title="top.lang">TR</button>
+      <button class="btn icon hide-phone" id="b-theme" data-i18n-title="top.theme"><svg class="i"><use href="#i-moon"/></svg></button>
+      <button class="btn icon hide-narrow" id="b-help" data-i18n-title="top.help"><svg class="i"><use href="#i-help"/></svg></button>
+      <button class="btn icon mobile-only" id="b-side" data-i18n-title="side.title"><svg class="i"><use href="#i-panel"/></svg></button>
+    </div>
+    <div class="menu-wrap">
+      <button class="btn primary split-r" id="b-save" disabled><svg class="i"><use href="#i-save"/></svg><span class="hide-phone" data-i18n="top.save">Save PDF</span></button>
+      <button class="btn primary split-l" id="b-save-menu" disabled aria-haspopup="menu" aria-expanded="false" data-i18n-title="top.more"><svg class="i"><use href="#i-down"/></svg></button>
+      <div class="menu" id="save-menu" role="menu" hidden>
+        <button role="menuitem" data-act="save"><svg class="i"><use href="#i-save"/></svg><span><span data-i18n="menu.save">Save PDF</span><small data-i18n="menu.saveHint">All pages with your changes</small></span></button>
+        <button role="menuitem" data-act="extract"><svg class="i"><use href="#i-extract"/></svg><span><span data-i18n="menu.extract">Save selected pages</span><small data-i18n="menu.extractHint">Only the pages selected on the left</small></span></button>
+        <button role="menuitem" data-act="split"><svg class="i"><use href="#i-split"/></svg><span><span data-i18n="menu.split">Split into single pages</span><small data-i18n="menu.splitHint">One PDF per page, in a ZIP file</small></span></button>
+        <hr>
+        <button role="menuitem" data-act="images"><svg class="i"><use href="#i-image"/></svg><span><span data-i18n="menu.images">Save pages as images</span><small data-i18n="menu.imagesHint">PNG files in a ZIP</small></span></button>
+      </div>
+    </div>
+  </header>
+
+  <aside class="pages" id="pages-panel" aria-labelledby="pages-h">
+    <div class="panel-h"><span id="pages-h" data-i18n="pages.title">Pages</span><span class="count" id="page-count"></span></div>
+    <div class="page-tools">
+      <button class="btn icon" data-page="rl" data-i18n-title="pages.rotL" disabled><svg class="i"><use href="#i-rl"/></svg></button>
+      <button class="btn icon" data-page="rr" data-i18n-title="pages.rotR" disabled><svg class="i"><use href="#i-rr"/></svg></button>
+      <button class="btn icon" data-page="dup" data-i18n-title="pages.dup" disabled><svg class="i"><use href="#i-dup"/></svg></button>
+      <button class="btn icon" data-page="blank" data-i18n-title="pages.blank" disabled><svg class="i"><use href="#i-blank"/></svg></button>
+      <button class="btn icon" data-page="extract" data-i18n-title="pages.extract" disabled><svg class="i"><use href="#i-extract"/></svg></button>
+      <button class="btn icon danger" data-page="del" data-i18n-title="pages.del" disabled><svg class="i"><use href="#i-trash"/></svg></button>
+    </div>
+    <div class="thumbs" id="thumbs" role="listbox" aria-multiselectable="true" aria-labelledby="pages-h" tabindex="0"></div>
+  </aside>
+
+  <nav class="tools" id="tools" aria-label="Tools">
+    <button class="tool" data-tool="select" aria-pressed="true" data-i18n-title="tool.select"><svg class="i"><use href="#i-select"/></svg><kbd>V</kbd></button>
+    <button class="tool" data-tool="text" aria-pressed="false" data-i18n-title="tool.text"><svg class="i"><use href="#i-text"/></svg><kbd>T</kbd></button>
+    <button class="tool" data-tool="highlight" aria-pressed="false" data-i18n-title="tool.highlight"><svg class="i"><use href="#i-hl"/></svg><kbd>H</kbd></button>
+    <button class="tool" data-tool="draw" aria-pressed="false" data-i18n-title="tool.draw"><svg class="i"><use href="#i-draw"/></svg><kbd>P</kbd></button>
+    <button class="tool" data-tool="box" aria-pressed="false" data-i18n-title="tool.box"><svg class="i"><use href="#i-box"/></svg><kbd>R</kbd></button>
+    <button class="tool" data-tool="whiteout" aria-pressed="false" data-i18n-title="tool.whiteout"><svg class="i"><use href="#i-white"/></svg><kbd>W</kbd></button>
+    <span class="sep-h"></span>
+    <button class="tool" data-tool="signature" aria-pressed="false" data-i18n-title="tool.signature"><svg class="i"><use href="#i-sign"/></svg><kbd>S</kbd></button>
+    <button class="tool" data-tool="image" aria-pressed="false" data-i18n-title="tool.image"><svg class="i"><use href="#i-image"/></svg><kbd>I</kbd></button>
+    <button class="tool" data-tool="mark" aria-pressed="false" data-i18n-title="tool.mark"><svg class="i"><use href="#i-check"/></svg><kbd>K</kbd></button>
+    <button class="tool" data-tool="date" aria-pressed="false" data-i18n-title="tool.date"><svg class="i"><use href="#i-date"/></svg><kbd>D</kbd></button>
+  </nav>
+
+  <main class="stage" id="stage" data-tool="select">
+    <div class="sheets" id="sheets"></div>
+    <div class="empty" id="empty">
+      <div class="drop" id="drop">
+        <svg class="sheet-art" viewBox="0 0 92 116" aria-hidden="true">
+          <path d="M6 4h56l24 24v80a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4Z" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <path d="M62 4v20a4 4 0 0 0 4 4h20" fill="none" stroke="var(--line-strong)" stroke-width="2"/>
+          <rect x="16" y="44" width="52" height="8" rx="2" fill="var(--mark)" opacity=".7"/>
+          <path d="M16 38h44M16 60h56M16 70h50M16 80h38" stroke="var(--line-strong)" stroke-width="3" stroke-linecap="round"/>
+          <path d="M18 98c4-7 7-10 9-10 3 0-2 9 1 9 2 0 4-5 6-5s1 4 3 4c1.5 0 3-2 4-2" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+        <h1 data-i18n="empty.title">Drop a PDF here</h1>
+        <p data-i18n="empty.body">Add text, sign, fill in forms, highlight, merge, split, reorder and rotate pages. Images become PDF pages too.</p>
+        <div class="row">
+          <button class="btn primary" id="e-open"><svg class="i"><use href="#i-open"/></svg><span data-i18n="empty.open">Choose files</span></button>
+          <button class="btn line" id="e-sample"><span data-i18n="empty.sample">Try the sample form</span></button>
+        </div>
+        <div class="feats">
+          <span><svg class="i"><use href="#i-ok"/></svg><span data-i18n="empty.f1">Nothing is uploaded</span></span>
+          <span><svg class="i"><use href="#i-ok"/></svg><span data-i18n="empty.f2">No account, no watermark</span></span>
+          <span><svg class="i"><use href="#i-ok"/></svg><span data-i18n="empty.f3">Works offline</span></span>
+          <span><svg class="i"><use href="#i-ok"/></svg><span data-i18n="empty.f4">Open source</span></span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <aside class="side" id="side-panel">
+    <div class="tabs" role="tablist">
+      <button role="tab" id="tab-tool" aria-selected="true" aria-controls="p-tool" data-tab="tool"><span data-i18n="side.tool">Tool</span></button>
+      <button role="tab" id="tab-forms" aria-selected="false" aria-controls="p-forms" data-tab="forms"><span data-i18n="side.forms">Form</span><span class="badge" id="forms-badge" hidden></span></button>
+      <button role="tab" id="tab-doc" aria-selected="false" aria-controls="p-doc" data-tab="doc"><span data-i18n="side.doc">Document</span></button>
+    </div>
+    <div class="tabpanel" role="tabpanel" id="p-tool" aria-labelledby="tab-tool"></div>
+    <div class="tabpanel" role="tabpanel" id="p-forms" aria-labelledby="tab-forms" hidden></div>
+    <div class="tabpanel" role="tabpanel" id="p-doc" aria-labelledby="tab-doc" hidden></div>
+  </aside>
+</div>
+
+<input type="file" id="file-open" accept="application/pdf,.pdf,image/png,image/jpeg,image/webp" multiple hidden>
+<input type="file" id="file-add" accept="application/pdf,.pdf,image/png,image/jpeg,image/webp" multiple hidden>
+<input type="file" id="file-image" accept="image/png,image/jpeg,image/webp" hidden>
+
+<dialog id="dlg-sign" aria-labelledby="sign-h">
+  <form class="dlg" method="dialog" id="sign-form">
+    <h2 id="sign-h" data-i18n="sign.title">New signature</h2>
+    <div class="seg" id="sign-mode">
+      <button type="button" data-mode="draw" aria-pressed="true" data-i18n="sign.draw">Draw</button>
+      <button type="button" data-mode="type" aria-pressed="false" data-i18n="sign.type">Type</button>
+      <button type="button" data-mode="upload" aria-pressed="false" data-i18n="sign.upload">Image</button>
+    </div>
+    <div id="sign-draw"><canvas class="pad" id="sign-pad" width="1000" height="380" data-i18n-aria="sign.padLabel"></canvas><p class="hint" data-i18n="sign.drawHint">Sign with your mouse, finger or pen.</p></div>
+    <div id="sign-type" hidden><input class="inp typed" id="sign-text" maxlength="40" autocomplete="name" data-i18n-ph="sign.typePh"></div>
+    <div id="sign-upload" hidden><p class="hint" data-i18n="sign.uploadHint">A photo or scan of your signature. A white background is removed automatically.</p><input type="file" id="sign-file" accept="image/png,image/jpeg,image/webp"></div>
+    <div class="field"><span class="lbl" data-i18n="sign.color">Ink</span>
+      <div class="swatches" id="sign-colors"></div>
+    </div>
+    <label class="chk"><input type="checkbox" id="sign-keep" checked><span data-i18n="sign.keep">Remember on this device</span></label>
+    <div class="acts">
+      <button type="button" class="btn line" id="sign-clear" data-i18n="sign.clear">Clear</button>
+      <span class="spacer"></span>
+      <button type="button" class="btn line" value="cancel" id="sign-cancel" data-i18n="common.cancel">Cancel</button>
+      <button type="button" class="btn primary" id="sign-ok" data-i18n="sign.use">Use signature</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlg-pass" aria-labelledby="pass-h">
+  <form class="dlg" id="pass-form">
+    <h2 id="pass-h"><span data-i18n="pass.title">This PDF is password protected</span></h2>
+    <p class="hint" id="pass-msg" data-i18n="pass.body">Enter the password to open it.</p>
+    <input class="inp" type="password" id="pass-input" autocomplete="off">
+    <div class="acts">
+      <button type="button" class="btn line" id="pass-cancel" data-i18n="common.cancel">Cancel</button>
+      <button type="submit" class="btn primary" data-i18n="pass.open">Open</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlg-confirm" aria-labelledby="confirm-h">
+  <div class="dlg">
+    <h2 id="confirm-h"></h2>
+    <p class="hint" id="confirm-body"></p>
+    <div class="acts">
+      <button type="button" class="btn line" id="confirm-no" data-i18n="common.cancel">Cancel</button>
+      <button type="button" class="btn primary" id="confirm-yes"></button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="dlg-help" aria-labelledby="help-h">
+  <div class="dlg">
+    <h2 id="help-h" data-i18n="help.title">Keyboard shortcuts</h2>
+    <div class="keys" id="help-keys"></div>
+    <p class="hint"><span data-i18n="help.about">TLK PDF is free and open source.</span> <a href="https://github.com/Talkdedsec/tlk-pdf" target="_blank" rel="noopener">github.com/Talkdedsec/tlk-pdf</a> · <span id="help-version"></span></p>
+    <div class="acts"><button type="button" class="btn primary" id="help-close" data-i18n="common.close">Close</button></div>
+  </div>
+</dialog>
+
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+</body>
+</html>

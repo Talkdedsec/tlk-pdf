@@ -1,0 +1,15 @@
+name: Idea / Öneri
+description: Suggest a feature or an improvement. / Bir özellik ya da iyileştirme öner.
+labels: [idea]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do? / Ne yapmaya çalışıyorsun?
+      description: Describe the task, not only the button you want. / Yalnızca istediğin düğmeyi değil, yapmak istediğin işi anlat.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: How could TLK PDF help? / TLK PDF nasıl yardımcı olabilir?

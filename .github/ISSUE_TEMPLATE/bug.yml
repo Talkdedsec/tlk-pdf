@@ -1,0 +1,46 @@
+name: Bug report / Hata bildirimi
+description: Something does not work as expected. / Bir şey beklendiği gibi çalışmıyor.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened? / Ne oldu?
+      description: What did you do, what did you expect, what happened? / Ne yaptın, ne bekliyordun, ne oldu?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce / Tekrarlama adımları
+      placeholder: |
+        1. Open the sample form
+        2. ...
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where / Nerede
+      options:
+        - Browser (talkdedsec.github.io) / Tarayıcı
+        - Windows app / Windows uygulaması
+        - Both / İkisi de
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: TLK PDF version / sürümü
+      description: Shown in the shortcuts window (the ? button). / Kısayollar penceresinde yazar (? düğmesi).
+      placeholder: "1.0.0"
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and system / Tarayıcı ve sistem
+      placeholder: "Edge 141, Windows 11"
+  - type: textarea
+    id: file
+    attributes:
+      label: Sample file / Örnek dosya
+      description: If a specific PDF causes it, attach one without personal data if you can. / Belirli bir PDF'te oluyorsa, kişisel veri içermeyen bir örnek ekle.
