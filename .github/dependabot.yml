@@ -1,9 +1,13 @@
 version: 2
 updates:
+  # Bumps wait two weeks after a release. pdfjs-dist, pdf-lib, fflate and the
+  # fonts also need `npm run vendor`; the tests fail until that is committed.
   - package-ecosystem: npm
     directory: "/"
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 14
     groups:
       npm:
         patterns: ["*"]

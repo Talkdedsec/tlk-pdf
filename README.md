@@ -21,7 +21,9 @@ TLK PDF is a PDF editor for the everyday jobs: fill in a form, sign it, add a no
 
 Everything happens on your device: in the browser through GitHub Pages (installable, works offline), or as a Windows program. There is no account, no upload, no watermark and no page limit. The interface is in **English and Turkish**.
 
-![Filling in a form in TLK PDF](docs/screenshot.png)
+![TLK PDF: fill in a form, highlight, add a note, sign and save](docs/demo.gif)
+
+<sub>Also as [video](docs/demo.mp4) · [dark theme](docs/screenshot-dark.png)</sub>
 
 ## Start in 10 seconds
 
@@ -107,6 +109,7 @@ npm run test:desktop   # the desktop app with a PDF on the command line
 npm start              # desktop app
 npm run dist           # Windows portable + installer into release/
 npm run assets         # icons, screenshots and the social image
+npm run demo           # record the README demos (needs ffmpeg)
 npm run vendor         # copy pdf.js, pdf-lib, fontkit, fflate and fonts into web/
 npm run sample         # rebuild the sample form
 ```

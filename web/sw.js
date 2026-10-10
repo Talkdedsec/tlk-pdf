@@ -1,7 +1,7 @@
 // Offline support for the hosted app: the app shell is cached on install,
 // everything else (pdf.js data files, fonts) is cached the first time it is
 // used. A new version gets a new cache name.
-const CACHE = 'tlk-pdf-1.0.0';
+const CACHE = 'tlk-pdf-1.0.1';
 const SHELL = [
   './', 'index.html', 'css/app.css', 'manifest.webmanifest', 'icons/icon.svg', 'icons/icon-192.png',
   'js/app.js', 'js/i18n.js', 'js/store.js', 'js/geometry.js', 'js/pdfio.js', 'js/signature.js', 'js/version.js',

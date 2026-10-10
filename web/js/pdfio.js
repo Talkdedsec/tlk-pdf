@@ -70,7 +70,8 @@ async function readFields(pdf) {
       (out[a.fieldName] ||= []).push({
         id: a.id, type, value, page: i - 1, readOnly: !!a.readOnly,
         exportValues: a.buttonValue ?? a.exportValue ?? null,
-        items: a.options || [], multiline: !!a.multiLine, password: !!a.password, charLimit: a.maxLen || 0
+        items: a.options || [], multiline: !!a.multiLine, password: !!a.password, charLimit: a.maxLen || 0,
+        rect: a.rect, size: a.defaultAppearanceData?.fontSize || 0, align: a.textAlignment || 0
       });
     }
   }
@@ -168,6 +169,15 @@ export function fieldValue(src, name) {
 
 // Mirrors edited form values into pdf.js so rendered pages show them.
 // Fields the user has not touched keep the appearance stored in the file.
+// Edited text fields and drop-downs are blanked here and drawn by the editor
+// instead (see formStamps), in the font the saved file will use: pdf.js
+// switches to an oversized fallback when the field's own font cannot encode
+// letters such as ş, ğ or ı.
+// Letters outside Latin-1 are the ones a standard PDF font cannot encode.
+const needsOwnFont = (t) => /[^\u0000-\u00ff]/.test(String(t ?? ''));
+const choiceLabel = (w, v) => (w.items.find((o) => o.exportValue === v) || {}).displayValue ?? v;
+const drawnByEditor = (w, v) => w.type === 'text' || (w.type === 'combobox' && needsOwnFont(choiceLabel(w, v)));
+
 export function syncFormPreview() {
   for (const src of sources) {
     if (!src.fields) continue;
@@ -179,11 +189,44 @@ export function syncFormPreview() {
         if (!edited) { store.remove?.(w.id); continue; }
         if (w.type === 'checkbox') store.setValue(w.id, { value: !!v });
         else if (w.type === 'radiobutton') store.setValue(w.id, { value: v === w.exportValues });
-        else if (w.type === 'combobox' || w.type === 'listbox') store.setValue(w.id, { value: v ? [v] : [] });
-        else store.setValue(w.id, { value: String(v ?? '') });
+        else if (w.type === 'combobox') store.setValue(w.id, { value: drawnByEditor(w, v) || !v ? [] : [v] });
+        else if (w.type === 'listbox') store.setValue(w.id, { value: v ? [v] : [] });
+        else store.setValue(w.id, { value: '' });
       }
     }
   }
+}
+
+// Text for the edited text fields and drop-downs on page `p`, laid out the
+// way pdf-lib writes field appearances: 2 pt padding, one line centred
+// vertically, several lines from the top.
+export function formStamps(p, measure) {
+  const src = p.src ? source(p.src) : null;
+  if (!src?.fields) return [];
+  const out = [];
+  for (const [name, widgets] of Object.entries(src.fields)) {
+    if (!(formKey(src.id, name) in doc.forms)) continue;
+    let text = fieldValue(src, name);
+    for (const w of widgets) {
+      if (w.page !== p.index || !drawnByEditor(w, text) || !w.rect) continue;
+      if (w.type === 'combobox') text = choiceLabel(w, text);
+      text = String(text ?? '');
+      if (w.password) text = '•'.repeat(text.length);
+      if (!text) continue;
+      const [x0, y0, x1, y1] = w.rect;
+      const rw = x1 - x0, rh = y1 - y0;
+      const lines = w.multiline ? text.split('\n') : [text.replace(/\n/g, ' ')];
+      const size = w.size || Math.max(4, Math.min(12, (w.multiline ? 12 : (rh - 4) * 0.72)));
+      const tw = measure(lines.join('\n'), size, 'sans', false);
+      const h = lines.length * size * LINE;
+      let x = x0 + 2;
+      if (!w.multiline && w.align === 1) x = x0 + (rw - tw) / 2;
+      else if (!w.multiline && w.align === 2) x = x1 - 2 - tw;
+      const y = w.multiline ? y1 - 2 - h + size * 0.15 : (y0 + y1) / 2 - size * 0.65;
+      out.push({ type: 'text', stamp: true, text: lines.join('\n'), x, y, w: tw, h, rot: 0, size, font: 'sans', bold: false, color: '#000000', opacity: 1 });
+    }
+  }
+  return out;
 }
 
 /* ---------------------------------------------------------------- stamps */
@@ -289,7 +332,9 @@ export async function buildPdf(list, { progress = () => {} } = {}) {
     try { form = lib.getForm(); } catch { continue; }
     if (changed) {
       lib.registerFontkit(window.fontkit);
-      const font = await lib.embedFont(await loadFontBytes('sans/0'), { subset: true });
+      // Fields that stay fillable get the whole font, so other programs can
+      // type any letter into them later; flattened fields only need a subset.
+      const font = await lib.embedFont(await loadFontBytes('sans/0'), { subset: !inPlace });
       for (const [key, val] of Object.entries(doc.forms)) {
         if (!key.startsWith(id + '|')) continue;
         const name = key.slice(id.length + 1);

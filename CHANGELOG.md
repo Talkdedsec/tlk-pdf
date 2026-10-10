@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.1
+
+- Form fields with Turkish letters such as ş, ğ and ı now preview at the right size, in the same font the saved file uses. Before, the preview switched to an oversized fallback font (the saved file was already correct).
+- Fields that stay fillable after saving embed the complete font, so other programs can type any letter into them later.
+- The text box no longer hides the first letter while you type.
+- README demos for English and Turkish.
+
 ## 1.0.0
 
 First release, in the browser and as a Windows app.

@@ -9,7 +9,7 @@ import {
 import { viewport, mul, localToUser, viewBounds, boxFromView, moveBy, pointAt, dirs, clamp, ASCENT, LINE, MARKS } from './geometry.js';
 import {
   openPdf, openImage, blankPage, drawPage, buildPdf, pdfToPngs, stampsFor, syncFormPreview,
-  fieldValue, formKey, Cancelled, forgetPages
+  fieldValue, formKey, Cancelled, forgetPages, formStamps
 } from './pdfio.js';
 import { openSignatureDialog, listSignatures, removeSignature } from './signature.js';
 
@@ -412,7 +412,7 @@ function drawOverlay(pageId) {
   const vp = vpOf(p);
   const n = doc.pages.indexOf(p) + 1;
   let html = '';
-  for (const st of stampsFor(p, n, doc.pages.length, measure)) html += itemSvg(st, vp, true);
+  for (const st of [...formStamps(p, measure), ...stampsFor(p, n, doc.pages.length, measure)]) html += itemSvg(st, vp, true);
   for (const raw of itemsOf(pageId)) {
     if (editing && editing.itemId === raw.id) continue;
     html += itemSvg(preview.get(raw.id) || raw, vp);
@@ -674,6 +674,8 @@ function startText(pageId, item, x, y) {
     ta.style.height = '0px';
     ta.style.width = Math.max(40, ta.scrollWidth + 8) + 'px';
     ta.style.height = ta.scrollHeight + 'px';
+    // Shrinking to measure scrolls the text sideways; put it back.
+    ta.scrollLeft = 0;
   };
   ta.addEventListener('input', fit);
   ta.addEventListener('keydown', (e) => {
@@ -1407,6 +1409,7 @@ onChange((what) => {
   if (ui.sel && !findItem(ui.sel.pageId, ui.sel.itemId)) ui.sel = null;
   if (what.forms) {
     syncFormPreview();
+    if (!what.pages) drawAllOverlays();
     clearTimeout(formTimer);
     formTimer = setTimeout(() => { ui.formVersion++; scheduleRender(); renderThumbs(); }, 120);
   }

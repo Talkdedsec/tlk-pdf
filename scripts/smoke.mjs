@@ -15,6 +15,18 @@ const pdfjs = await import('pdfjs-dist/legacy/build/pdf.mjs');
 const failures = [];
 const check = (ok, msg) => { if (!ok) failures.push(msg); console.log((ok ? '  ok   ' : '  FAIL ') + msg); };
 
+// The app runs the copies in web/vendor, not node_modules. A dependency bump
+// without `npm run vendor` would test one version and ship another.
+{
+  const vendored = JSON.parse(await readFile(new URL('web/vendor/VERSIONS.json', ROOT), 'utf8'));
+  const stale = [];
+  for (const [name, v] of Object.entries(vendored)) {
+    const installed = JSON.parse(await readFile(new URL(`node_modules/${name}/package.json`, ROOT), 'utf8')).version;
+    if (installed !== v) stale.push(`${name} ${v} → ${installed}`);
+  }
+  check(!stale.length, stale.length ? `vendored files are out of date (${stale.join(', ')}); run npm run vendor` : 'vendored libraries and fonts match package.json');
+}
+
 async function pdfText(bytes) {
   const task = pdfjs.getDocument({ data: new Uint8Array(bytes), useSystemFonts: false, verbosity: 0 });
   const d = await task.promise;

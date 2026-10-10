@@ -1,7 +1,7 @@
 {
   "name": "tlk-pdf",
   "productName": "TLK PDF",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Free, open-source PDF editor that runs on your device: text, signatures, form filling, highlights, drawing, white-out, merge, split, reorder and rotate pages.",
   "license": "MIT",
   "author": "Talkdedsec",
@@ -23,7 +23,8 @@
     "vendor": "node scripts/vendor.mjs",
     "sample": "node scripts/make-sample.mjs",
     "assets": "node scripts/render-assets.mjs",
-    "dist": "electron-builder --win --x64 --publish never"
+    "dist": "electron-builder --win --x64 --publish never",
+    "demo": "node scripts/render-demo.mjs en && node scripts/render-demo.mjs tr"
   },
   "build": {
     "appId": "com.talkdedsec.tlkpdf",

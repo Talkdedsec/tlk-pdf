@@ -21,7 +21,9 @@ TLK PDF günlük PDF işleri için bir düzenleyici: form doldur, imzala, not ek
 
 Her şey kendi cihazında olur: tarayıcıda GitHub Pages üzerinden (kurulabilir, internetsiz çalışır) ya da Windows programı olarak. Hesap, yükleme, filigran ve sayfa sınırı yok. Arayüz **Türkçe ve İngilizce**.
 
-![TLK PDF ile form doldurma](docs/screenshot-tr.png)
+![TLK PDF: form doldur, vurgula, not ekle, imzala ve kaydet](docs/demo-tr.gif)
+
+<sub>[Video olarak](docs/demo-tr.mp4) · [koyu tema](docs/screenshot-dark.png)</sub>
 
 ## 10 saniyede başla
 
@@ -107,6 +109,7 @@ npm run test:desktop   # komut satırından PDF verilen masaüstü uygulaması
 npm start              # masaüstü uygulaması
 npm run dist           # release/ içine Windows portable + kurulum
 npm run assets         # ikonlar, ekran görüntüleri ve sosyal görsel
+npm run demo           # README demolarını kaydet (ffmpeg gerekir)
 npm run vendor         # pdf.js, pdf-lib, fontkit, fflate ve fontları web/'e kopyala
 npm run sample         # örnek formu yeniden üret
 ```

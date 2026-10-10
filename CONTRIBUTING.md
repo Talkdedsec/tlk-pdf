@@ -35,7 +35,7 @@ The web app has no build step: edit the files in `web/` and reload.
 - New interface text exists in English and Turkish.
 - User-visible changes are listed in `CHANGELOG.md`.
 - If you changed a dependency version, run `npm run vendor` and commit the files it updates.
-- If the interface changed visibly, run `npm run assets` to refresh the screenshots.
+- If the interface changed visibly, run `npm run assets` to refresh the screenshots and `npm run demo` for the demo videos (needs ffmpeg).
 
 ## Releases
 
