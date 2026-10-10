@@ -10,6 +10,9 @@ concurrency:
   cancel-in-progress: false
 jobs:
   build:
+    # GitHub Pages needs a public repository on the free plan; the site is
+    # published automatically once the repository is made public.
+    if: ${{ !github.event.repository.private }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
