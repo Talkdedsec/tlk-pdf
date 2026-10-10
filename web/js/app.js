@@ -1611,6 +1611,10 @@ window.TLKPDF = {
   setTool, setZoom, pageAction, undo, redo,
   fill: (name, value) => { const s = sources.find((x) => x.fields?.[name]); if (s) setForm(s, name, value, false); },
   tab: (name) => { ui.tab = name; renderSide(); },
-  rendered: () => doc.pages.every((p) => !sheets.get(p.id)?.visible || !sheets.get(p.id).el.classList.contains('loading')),
+  // True once at least one page is on screen and every visible page is drawn.
+  rendered: () => {
+    const shown = doc.pages.map((p) => sheets.get(p.id)).filter((s) => s?.visible);
+    return shown.length > 0 && shown.every((s) => !s.el.classList.contains('loading'));
+  },
   measure
 };
