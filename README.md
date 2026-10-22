@@ -141,3 +141,7 @@ The browser scripts use an installed Edge or Chrome; set `BROWSER_PATH` to use a
 ## License
 
 [MIT](LICENSE) for the code. The vendored libraries and fonts keep their own licences.
+
+<p align="center">
+  <sub>Built by <a href="https://talkdedsec.com">Talkdedsec</a></sub>
+</p>

@@ -141,3 +141,7 @@ Tarayıcı betikleri kurulu Edge ya da Chrome kullanır; başka bir Chromium tab
 ## Lisans
 
 Kod için [MIT](LICENSE). Kopyalanan kütüphaneler ve fontlar kendi lisanslarını korur.
+
+<p align="center">
+  <sub><a href="https://talkdedsec.com">Talkdedsec</a> tarafından yapıldı</sub>
+</p>
